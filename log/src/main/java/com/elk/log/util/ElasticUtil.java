@@ -31,7 +31,7 @@ public class ElasticUtil {
 	public static void main(String[] args) throws ElasticsearchException, IOException {
 //	private ElasticUtil() {
 		// create the low-level client
-		RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
+		RestClient restClient = RestClient.builder(new HttpHost("172.23.209.241", 9200)).build();
 		// create the transport with a jackson mapper
 		ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
 		// create the api client
