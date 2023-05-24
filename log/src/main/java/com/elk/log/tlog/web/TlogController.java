@@ -3,9 +3,14 @@ package com.elk.log.tlog.web;
 import com.elk.log.tlog.document.Tlog;
 import com.elk.log.tlog.service.TlogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,9 +18,34 @@ public class TlogController {
 
     private final TlogService tlogService;
 
+    @GetMapping("/test/{id}")
+    public Tlog getTestId(@PathVariable String id) {
+        return tlogService.findById(id).get();
+    }
+
     @GetMapping("/test")
-    public Tlog test() {
-        return tlogService.findById(1L).get();
+    public List<Tlog> getTest(@PageableDefault(size = 1000, sort = "timestamp") Pageable pageable) {
+        return tlogService.searchBy(pageable);
+//        return tlogService.findAllBy(pageable);
+    }
+
+    @PostMapping("/test")
+    public String postTest() {
+
+        for(int i=10001; i< 20000; i++) {
+
+            tlogService.save(Tlog.builder()
+                    .id(Integer.toString(i))
+                    .version("version")
+                    .timestamp(Long.parseLong(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"))))
+                    .level("level")
+                    .loggerName("loggerName")
+                    .threadName("threadName")
+                    .levelValue(3L)
+                    .message("message")
+                    .build());
+        }
+        return "true";
     }
 
 }
