@@ -24,15 +24,14 @@ public class TlogController {
     }
 
     @GetMapping("/test")
-    public List<Tlog> getTest(@PageableDefault(size = 1000, sort = "timestamp") Pageable pageable) {
-        return tlogService.searchBy(pageable);
-//        return tlogService.findAllBy(pageable);
+    public List<Tlog> getTest(@PageableDefault() Pageable pageable) {
+        return tlogService.findAllBy(pageable);
     }
 
     @PostMapping("/test")
     public String postTest() {
 
-        for(int i=10001; i< 20000; i++) {
+        for(int i=1; i< 10000; i++) {
 
             tlogService.save(Tlog.builder()
                     .id(Integer.toString(i))

@@ -11,8 +11,7 @@ import java.util.stream.Stream;
 
 
 public interface TlogRepository extends ElasticsearchRepository<Tlog, String> {
-    public List<Tlog> findAllBy(Pageable pageable);
+    public Stream<Tlog> findAllBy(Pageable pageable);
     public Stream<Tlog> searchBy(Pageable pageable);
-//    public List<Tlog> findAllBy(PageRequest pageRequest);
 
 }

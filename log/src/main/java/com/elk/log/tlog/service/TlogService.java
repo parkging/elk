@@ -26,15 +26,14 @@ public class TlogService {
     }
 
     public List<Tlog> findAllBy(Pageable pageable) {
-//        return tlogRepository.findAllBy(PageRequest.of(0, 1, Sort.by("id").ascending()));
-        return tlogRepository.findAllBy(pageable);
+        return tlogRepository.findAllBy(PageRequest.of(0, pageable.getPageSize(), pageable.getSort()))
+                .skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                .limit((long) pageable.getPageSize())
+                .collect(Collectors.toList());
     }
 
     public List<Tlog> searchBy(Pageable pageable) {
-//        PageRequest.of(null, null, pageable.getSort())
         return tlogRepository.searchBy(pageable)
-                .skip(10000)
-                .limit(1000)
                 .collect(Collectors.toList());
     }
 
